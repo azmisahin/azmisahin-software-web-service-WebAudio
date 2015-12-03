@@ -46,6 +46,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="sample\hello.wav" />
+    <Content Include="sample\hi.wav" />
     <Content Include="index.html" />
     <Content Include="web-audio.js" />
   </ItemGroup>
