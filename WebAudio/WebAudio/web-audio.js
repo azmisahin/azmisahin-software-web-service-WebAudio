@@ -7,9 +7,19 @@ WebAudio.prototype = (function () {
     var context = {
         Version: "0.0.0.1"
         , WebAudio: new AudioContext()
+        , navigator : window.navigator
         , request: new XMLHttpRequest()
-        , buffer:null
+        , buffer: null
+        , mediaStream: null
+        , recorder:null
     }
+
+    context.navigator.getUserMedia = (
+        navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia
+        );
 
     /// Init
     function Init() {
@@ -25,6 +35,58 @@ WebAudio.prototype = (function () {
         context.request.responseType = 'arraybuffer';
         context.request.onload = requestOnload;
         context.request.send();
+    }
+
+    /// Record
+    function Record() {
+        context.navigator.getUserMedia(
+            { audio: true }
+            , function (localMediaStream)
+            {
+                context.mediaStream = localMediaStream;
+                var mediaStreamSource = context.WebAudio.createMediaStreamSource(localMediaStream);
+                context.recorder = new Recorder(mediaStreamSource
+                    , {
+                        workerPath: '/recorderjs/recorderWorker.js'
+                    });
+                context.recorder.record();
+            }
+            , function (err)
+            {
+                console.log('Not supported');
+            });
+    }
+
+    /// Stop
+    function Stop()
+    {
+        context.mediaStream.stop();
+        context.recorder.stop();        
+    }
+
+    /// Record Play
+    function RecordPlay()
+    {
+        context.recorder.exportWAV(function (blob) {
+            var url = URL.createObjectURL(blob);
+            Play(url);
+        });
+    }    
+    
+    /// Record Download
+    function RecordDownload() {
+        context.recorder.exportWAV(function (blob) {
+            download(blob)
+        });
+    }
+
+    // download
+    function download(blob)
+    {
+        var fileName = new Date().toISOString();
+        var fileExtention = ".wav";
+        context.recorder.clear();
+        Recorder.forceDownload(blob, fileName +fileExtention);
     }
 
     // requestOnload
@@ -55,7 +117,11 @@ WebAudio.prototype = (function () {
         constructor: WebAudio
         , init: function () { Init(); }
         , context: function () { return context; }
-        , play: function (url) { Play(url);}
+        , play: function (url) { Play(url); }
+        , record: function () { Record(); }
+        , stop: function () { Stop(); }
+        , recordPlay: function () { RecordPlay(); }       
+        , recordDownload: function () { RecordDownload() }
     }
 })();
 

@@ -3,19 +3,25 @@
 <head>
     <title>Web Audio</title>
     <meta name="description" content="Web Audio Api" />
-	<meta charset="utf-8" />
+    <meta charset="utf-8" />
     <meta name="author" content="Azmi ŞAHİN" />
     <meta name="generator" content="bilgi@azmisahin.com" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
-    <script src="web-audio.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/headjs/1.0.3/head.min.js" data-headjs-load="init.js"></script>
 </head>
 <body>
-    <button id="playSample">Play Sample</button>
-    <script>
-        playSample.onclick = function ()
-        {
-            webAudio.play('sample/hi.wav');
-        }
-    </script>
+    <div class="btn-group">        
+        <button id="recordAudio" type="button" class="btn btn-default" aria-label="Record" title="Record">
+            <span class="glyphicon glyphicon-record btn-danger" aria-hidden="true"></span>
+        </button>
+        <button id="stopAudio" type="button" class="btn btn-default" aria-label="Stop" title="Stop">
+            <span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
+        </button>
+        <button id="recordPlay" type="button" class="btn btn-default" aria-label="Record Play" title="Record Play">
+            <span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span>
+        </button>
+        <button id="recordDownload" type="button" class="btn btn-default" aria-label="Record Download" title="Record Download">
+            <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+        </button>    
+    </div><!--button group-->    
 </body>
 </html>
