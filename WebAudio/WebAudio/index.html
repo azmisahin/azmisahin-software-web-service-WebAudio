@@ -6,11 +6,16 @@
 	<meta charset="utf-8" />
     <meta name="author" content="Azmi ŞAHİN" />
     <meta name="generator" content="bilgi@azmisahin.com" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
     <script src="web-audio.js"></script>
 </head>
 <body>
+    <button id="playSample">Play Sample</button>
     <script>
-        webAudio.play("sample/hi.wav");        
+        playSample.onclick = function ()
+        {
+            webAudio.play('sample/hi.wav');
+        }
     </script>
 </body>
 </html>
